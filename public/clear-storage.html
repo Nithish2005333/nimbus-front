@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Clear Storage</title>
+</head>
+
+<body>
+    <h1>Clearing localStorage...</h1>
+    <script>
+        localStorage.clear();
+        localStorage.setItem('apiUrl', 'http://localhost:5000');
+        alert('Storage cleared! API URL set to http://localhost:5000');
+        window.location.href = '/';
+    </script>
+</body>
+
+</html>

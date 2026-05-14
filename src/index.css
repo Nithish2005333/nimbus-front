@@ -1,0 +1,218 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+  --bg-primary: #fdfeff;
+  --bg-secondary: #ffffff;
+  --text-primary: #1e1b4b; /* Deep Indigo 950 */
+  --text-secondary: #4338ca; /* Indigo 700 */
+  --text-muted: #6366f1; /* Indigo 500 */
+  --border-color: #e0e7ff; /* Indigo 100 */
+  --accent-primary: #6366f1; /* Indigo 500 */
+  --accent-secondary: #8b5cf6; /* Violet 500 */
+  --accent-glow: rgba(99, 102, 241, 0.15);
+  --card-bg: rgba(255, 255, 255, 0.95);
+}
+
+.dark {
+  color-scheme: dark;
+  --bg-primary: #050b14;
+  --bg-secondary: #0f172a;
+  --text-primary: #f8fafc;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+  --border-color: #1e293b;
+  --accent-primary: #22d3ee; /* Cyan 400 */
+  --accent-secondary: #8b5cf6; /* Violet 500 */
+  --accent-glow: rgba(34, 211, 238, 0.15);
+  --card-bg: rgba(15, 23, 42, 0.8);
+}
+
+@layer base {
+  html,
+  body {
+    @apply bg-[var(--bg-primary)] text-[var(--text-primary)] antialiased min-h-screen text-[13px];
+    background-image: 
+      radial-gradient(circle at 0% 0%, var(--accent-glow), transparent 45%),
+      radial-gradient(circle at 100% 0%, rgba(139, 92, 246, 0.08), transparent 40%),
+      radial-gradient(circle at 50% 50%, var(--bg-primary), transparent);
+    background-attachment: fixed;
+  }
+
+  ::selection {
+    @apply bg-cyan-200 text-slate-900;
+  }
+
+    /* Custom scrollbar for content area */
+    .custom-scrollbar {
+      scrollbar-width: thin;
+      scrollbar-color: rgba(34, 211, 238, 0.3) transparent;
+    }
+}
+
+@layer components {
+  .card {
+    @apply bg-[var(--card-bg)] border border-[var(--border-color)] rounded-2xl p-4 backdrop-blur-xl shadow-sm transition-all duration-300;
+    box-shadow: 0 4px 20px -5px rgba(0, 0, 0, 0.1), 0 0 0 1px rgba(0, 0, 0, 0.02);
+  }
+
+  .card:hover {
+    border-color: color-mix(in srgb, var(--accent-primary), transparent 50%);
+    box-shadow: 0 10px 15px -3px color-mix(in srgb, var(--accent-primary), transparent 95%), 0 4px 6px -4px color-mix(in srgb, var(--accent-primary), transparent 95%);
+  }
+
+  .card-muted {
+    @apply bg-[var(--bg-primary)]/50 border-[var(--border-color)];
+  }
+
+  .card-accent {
+    @apply border-[var(--border-color)] shadow-indigo-500/5;
+    background: linear-gradient(135deg, var(--bg-secondary), color-mix(in srgb, var(--bg-primary), transparent 50%), var(--bg-secondary));
+  }
+
+  .input-field {
+    @apply w-full rounded-xl border border-[var(--border-color)] bg-[var(--bg-secondary)] px-3 py-2 text-[13px] text-[var(--text-primary)] placeholder-[var(--text-muted)] shadow-sm focus:bg-[var(--bg-secondary)] focus:outline-none transition-all;
+  }
+
+  .input-field:focus {
+    border-color: var(--accent-primary);
+    box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent-primary), transparent 70%);
+  }
+
+  /* Date input styling */
+  .input-field[type="date"] {
+    @apply appearance-none;
+    color-scheme: light;
+    position: relative;
+  }
+
+  /* Hide native calendar picker indicator */
+  .input-field[type="date"]::-webkit-calendar-picker-indicator {
+    display: none !important;
+    opacity: 0;
+  }
+
+  .input-field[type="date"]::-webkit-datetime-edit-text,
+  .input-field[type="date"]::-webkit-datetime-edit-month-field,
+  .input-field[type="date"]::-webkit-datetime-edit-day-field,
+  .input-field[type="date"]::-webkit-datetime-edit-year-field {
+    @apply text-[var(--text-primary)];
+    padding: 0 0.125rem;
+  }
+
+  /* Select dropdown styling */
+  select.input-field {
+    @apply appearance-none cursor-pointer relative bg-[var(--bg-secondary)] border border-[var(--border-color)] rounded-xl px-4 py-2 pr-10 text-sm text-[var(--text-secondary)] outline-none transition-all;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    background-size: 16px 16px;
+  }
+
+  select.input-field:hover {
+    @apply border-[var(--accent-primary)];
+    background-color: color-mix(in srgb, var(--bg-primary), transparent 50%);
+  }
+
+  select.input-field:focus {
+    @apply border-[var(--accent-primary)] bg-[var(--bg-secondary)];
+    box-shadow: 0 0 0 2px color-mix(in srgb, var(--accent-primary), transparent 80%);
+  }
+
+  .btn-primary {
+    @apply inline-flex items-center justify-center rounded-xl bg-gradient-to-r from-[var(--accent-primary)] via-[var(--accent-secondary)] to-fuchsia-600 px-3.5 py-2 text-[13px] font-semibold text-white transition-all hover:translate-y-[-1px] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent-primary)];
+    box-shadow: 0 10px 15px -3px color-mix(in srgb, var(--accent-primary), transparent 80%), 0 4px 6px -4px color-mix(in srgb, var(--accent-primary), transparent 80%);
+  }
+
+  .btn-primary:hover {
+    box-shadow: 0 20px 25px -5px color-mix(in srgb, var(--accent-primary), transparent 70%), 0 8px 10px -6px color-mix(in srgb, var(--accent-primary), transparent 70%);
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center rounded-xl bg-[var(--bg-secondary)] px-3.5 py-2 text-[13px] font-medium text-[var(--text-secondary)] backdrop-blur transition-all hover:bg-[var(--bg-primary)] hover:text-[var(--text-primary)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--border-color)];
+  }
+
+  .btn-danger {
+    @apply inline-flex items-center justify-center rounded-xl bg-rose-600 px-3.5 py-2 text-[13px] font-semibold text-white shadow-lg shadow-rose-200/50 transition-all hover:bg-rose-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-rose-500;
+  }
+
+  .btn-ghost {
+    @apply inline-flex items-center justify-center rounded-xl px-3 py-1.5 text-[13px] font-medium text-[var(--text-secondary)] hover:text-[var(--accent-primary)] transition;
+  }
+
+  .btn-ghost:hover {
+    background-color: color-mix(in srgb, var(--accent-primary), transparent 90%);
+  }
+
+  .chip {
+    @apply inline-flex items-center rounded-full border border-[var(--border-color)] bg-[var(--bg-primary)] px-3 py-1 text-xs font-medium text-[var(--text-secondary)] transition hover:bg-[var(--bg-secondary)];
+  }
+
+  .chip:hover {
+    border-color: color-mix(in srgb, var(--accent-primary), transparent 70%);
+  }
+
+  .stat-card {
+    @apply rounded-2xl border border-[var(--border-color)] bg-[var(--bg-secondary)] p-5 shadow-sm;
+  }
+
+  @media (max-width: 640px) {
+    .card {
+      @apply p-4 rounded-2xl overflow-hidden min-w-0 max-w-full;
+    }
+
+    .btn-primary,
+    .btn-secondary,
+    .btn-danger {
+      @apply text-sm px-3 py-2;
+    }
+
+    .input-field {
+      @apply text-base;
+    }
+  }
+}
+
+@layer utilities {
+  .gradient-border {
+    border: double 1px transparent;
+    background-image: linear-gradient(white, white), linear-gradient(120deg, rgba(79, 70, 229, 0.5), rgba(139, 92, 246, 0.4), rgba(217, 70, 239, 0.4));
+    background-origin: border-box;
+    background-clip: padding-box, border-box;
+  }
+
+  .grid-auto-fit {
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  }
+}
+
+/* Custom scrollbar */
+.custom-scrollbar::-webkit-scrollbar {
+  display: block;
+  width: 6px;
+  height: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.02);
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 99px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
