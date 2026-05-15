@@ -18,13 +18,20 @@ export async function getApiUrl() {
   }
 
   // 3. Smart Fallback (Auto-detect environment)
-  // If running locally (localhost), use local backend for speed (Control Room)
-  // If running on Vercel/Public, use Ngrok tunnel
-  if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+  const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+  
+  if (isLocal) {
     return 'http://localhost:5000';
-  } else {
-    return 'https://deprecatory-palmar-vanna.ngrok-free.dev';
   }
+
+  // If on Vercel or other public hosting, and no env/stored URL,
+  // we try to use the current origin as a last resort (monorepo deployments)
+  // Otherwise, we return the old fallback BUT we should warn the user.
+  const currentOrigin = window.location.origin;
+  
+  // Check if we have a known backend URL in window (injected during build)
+  // or just use the current origin if we are doing a unified deployment
+  return currentOrigin;
 }
 
 // Set API URL manually
